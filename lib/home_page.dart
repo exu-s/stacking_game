@@ -16,10 +16,15 @@ class _HomePageState extends State<HomePage> {
   int numberOfSquares = 160;
   List<int> piece = [];
   var direction = 'left';
-
   List<int> landed = [];
+  int level = 0;
+
   void startGame() {
-    piece = [numberOfSquares - 3, numberOfSquares - 2, numberOfSquares - 1];
+    piece = [
+      numberOfSquares - 3 - level * 10,
+      numberOfSquares - 2 - level * 10,
+      numberOfSquares - 1 - level * 10
+    ];
     Timer.periodic(
       const Duration(milliseconds: 250),
       (timer) {
@@ -45,11 +50,46 @@ class _HomePageState extends State<HomePage> {
   }
 
   void stack() {
+    level++;
     setState(() {
       for (int i = 0; i < piece.length; i++) {
         landed.add(piece[i]);
       }
+      if (level < 4) {
+        piece = [
+          numberOfSquares - 3 - level * 10,
+          numberOfSquares - 2 - level * 10,
+          numberOfSquares - 1 - level * 10
+        ];
+      } else if (level >= 4 && level < 8) {
+        piece = [
+          numberOfSquares - 2 - level * 10,
+          numberOfSquares - 1 - level * 10
+        ];
+      } else if (level >= 8) {
+        piece = [numberOfSquares - 1 - level * 10];
+      }
+      checkStack();
     });
+  }
+
+  void checkStack() {
+    setState(
+      () {
+        for (int i = 0; i < landed.length; i++) {
+          if (!landed.contains(landed[i] + 10) &&
+              (landed[i] + 10 < numberOfSquares - 1)) {
+            landed.remove(landed[i]);
+          }
+        }
+        for (int i = 0; i < landed.length; i++) {
+          if (!landed.contains(landed[i] + 10) &&
+              (landed[i] + 10 < numberOfSquares - 1)) {
+            landed.remove(landed[i]);
+          }
+        }
+      },
+    );
   }
 
   @override
