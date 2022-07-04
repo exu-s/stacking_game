@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacking_game/pixel.dart';
@@ -19,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   List<int> piece = [];
   var direction = 'left';
 
+  List<int> landed = [];
   void startGame() {
     piece = [numberOfSquares - 3, numberOfSquares - 2, numberOfSquares - 1];
     Timer.periodic(
@@ -45,7 +44,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void stack() {}
+  void stack() {
+    setState(() {
+      for (int i = 0; i < piece.length; i++) {
+        landed.add(piece[i]);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +68,10 @@ class _HomePageState extends State<HomePage> {
                     crossAxisCount: 10),
                 itemBuilder: (BuildContext context, int index) {
                   if (piece.contains(index)) {
+                    return const MyPixel(
+                      color: Colors.white,
+                    );
+                  } else if (landed.contains(index)) {
                     return const MyPixel(
                       color: Colors.white,
                     );
