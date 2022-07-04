@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacking_game/pixel.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -23,17 +24,12 @@ class _HomePageState extends State<HomePage> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 10),
               itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Container(
-                    color: Colors.black,
-                  ),
-                );
+                return MyPixel(color: Colors.black);
               },
             ),
           ),
           const SizedBox(
-            height: 2,
+            height: 4,
           ),
           Expanded(
               child: Container(
