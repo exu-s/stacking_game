@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   int numberOfSquares = 160;
   List<int> piece = [];
   var direction = 'left';
-  List<int> landed = [];
+  List<int> landed = [10000];
   int level = 0;
 
   void startGame() {
@@ -28,6 +28,11 @@ class _HomePageState extends State<HomePage> {
     Timer.periodic(
       const Duration(milliseconds: 250),
       (timer) {
+        if (checkWinner()) {
+          _showDialog();
+          timer.cancel();
+        }
+
         if (piece.first % 10 == 0) {
           direction = 'right';
         } else if (piece.last % 10 == 9) {
@@ -49,6 +54,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  bool checkWinner() {
+    if (landed.last < 10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            title: Text('Winner!'),
+          );
+        });
+  }
+
+  // stack
   void stack() {
     level++;
     setState(() {
@@ -73,6 +97,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // check stack
   void checkStack() {
     setState(
       () {
